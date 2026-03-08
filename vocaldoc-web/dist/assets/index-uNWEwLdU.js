@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{o as s,c as t,a}from"./index-6yGi0aia.js";const r={},c={class:"dashboard"};function n(d,e){return s(),t("div",c,[...e[0]||(e[0]=[a("h1",null,"数据概览",-1)])])}const i=o(r,[["render",n],["__scopeId","data-v-9f2f810d"]]);export{i as default};

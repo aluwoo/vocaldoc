@@ -1,0 +1,1 @@
+import{k as l,r as n}from"./index-6yGi0aia.js";const c=l("user",()=>{const o=n(""),t=n(null);function r(e){o.value=e,localStorage.setItem("token",e)}function u(e){t.value=e}function s(){o.value="",t.value=null,localStorage.removeItem("token")}return{token:o,userInfo:t,setToken:r,setUserInfo:u,logout:s}});export{c as u};
