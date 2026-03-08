@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/store'
-import { sendCode, login } from '@/api/auth'
+import { sendCode, login, getUserInfo } from '@/api/auth'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -69,8 +69,12 @@ async function handleLogin() {
       phone: loginForm.value.phone,
       code: loginForm.value.code
     })
-    userStore.setToken(res.token)
-    userStore.setUserInfo(res.user)
+    
+    userStore.setToken(res.accessToken)
+    
+    const userRes = await getUserInfo()
+    userStore.setUserInfo(userRes.data)
+    
     ElMessage.success('登录成功')
     router.push('/dashboard')
   } catch (error) {

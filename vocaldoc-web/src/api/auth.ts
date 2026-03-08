@@ -6,9 +6,10 @@ export interface LoginParams {
   code: string
 }
 
-export interface LoginResult {
-  token: string
-  user: User
+export interface TokenResult {
+  accessToken: string
+  refreshToken: string
+  expiresIn: number
 }
 
 export interface SendCodeParams {
@@ -17,15 +18,30 @@ export interface SendCodeParams {
 
 export function sendCode(data: SendCodeParams) {
   return request({
-    url: '/api/auth/sendCode',
+    url: '/auth/sendCode',
     method: 'POST',
     data
   })
 }
 
 export function login(data: LoginParams) {
-  return request<LoginResult>({
-    url: '/api/auth/login',
+  return request<TokenResult>({
+    url: '/auth/login',
+    method: 'POST',
+    data
+  })
+}
+
+export function getUserInfo() {
+  return request<User>({
+    url: '/users/me',
+    method: 'GET'
+  })
+}
+
+export function register(data: { phone: string; code: string; name: string }) {
+  return request({
+    url: '/auth/register',
     method: 'POST',
     data
   })

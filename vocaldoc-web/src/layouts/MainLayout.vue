@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/store'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const isCollapse = ref(false)
+
+const menuItems = [
+  { path: '/dashboard', title: '数据概览', icon: 'DataAnalysis' },
+  { path: '/records', title: '嗓音档案', icon: 'VideoCamera' },
+  { path: '/analysis', title: '嗓音分析', icon: 'TrendCharts' },
+  { path: '/comparison', title: '历史对比', icon: 'DataLine' }
+]
+
+const defaultActive = computed(() => route.path)
 
 function handleCommand(command: string) {
   if (command === 'logout') {
@@ -23,14 +33,14 @@ function handleCommand(command: string) {
         <span v-show="!isCollapse">声乐课堂</span>
       </div>
       <el-menu
-        :default-active="$route.path"
+        :default-active="defaultActive"
         :collapse="isCollapse"
         router
         class="el-menu-vertical"
       >
-        <el-menu-item index="/dashboard">
-          <el-icon><DataAnalysis /></el-icon>
-          <span>数据概览</span>
+        <el-menu-item v-for="item in menuItems" :key="item.path" :index="item.path">
+          <el-icon><component :is="item.icon" /></el-icon>
+          <span>{{ item.title }}</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -40,7 +50,7 @@ function handleCommand(command: string) {
           <el-dropdown @command="handleCommand">
             <span class="user-info">
               <el-icon><User /></el-icon>
-              <span>用户</span>
+              <span>{{ userStore.userInfo?.name || '用户' }}</span>
             </span>
             <template #dropdown>
               <el-dropdown-menu>
@@ -83,6 +93,20 @@ function handleCommand(command: string) {
   background-color: #304156;
 }
 
+.el-menu-item {
+  color: #bfcbd9;
+}
+
+.el-menu-item:hover {
+  background-color: #263445 !important;
+  color: #409EFF !important;
+}
+
+.el-menu-item.is-active {
+  background-color: #409EFF !important;
+  color: #fff !important;
+}
+
 .el-header {
   background-color: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
@@ -97,6 +121,11 @@ function handleCommand(command: string) {
   align-items: center;
   gap: 4px;
   cursor: pointer;
+  color: #606266;
+}
+
+.user-info:hover {
+  color: #409EFF;
 }
 
 .el-main {

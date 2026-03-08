@@ -7,6 +7,18 @@ spring:
   application:
     name: vocaldoc-backend
 
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  # 静态文件配置
+  web:
+    resources:
+      static-locations: file:/uploads/
+
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -72,6 +84,10 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 # 阿里云OSS配置
+app:
+  upload:
+    path: /uploads/records
+
 aliyun:
   oss:
     endpoint: oss-cn-hangzhou.aliyuncs.com
