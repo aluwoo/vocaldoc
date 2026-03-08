@@ -4,7 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build
+RUN npm cache clean --force
+RUN node ./node_modules/vite/bin/vite.js build
 
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
