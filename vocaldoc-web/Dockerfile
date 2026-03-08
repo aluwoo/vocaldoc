@@ -4,8 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npx vue-tsc --noEmit || true
-RUN npx vite build
+# Skip TypeScript checking in Docker build, just build
+RUN npx --yes vite build
 
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
